@@ -1,0 +1,156 @@
+// The portfolio renders itself from the API it is served by.
+// DOM nodes are built with textContent (never innerHTML), so data can't inject markup.
+
+const $ = (selector) => document.querySelector(selector);
+
+function h(tag, attrs = {}, ...children) {
+  const el = document.createElement(tag);
+  for (const [key, value] of Object.entries(attrs)) {
+    if (value === null || value === undefined || value === false) continue;
+    if (key === "class") el.className = value;
+    else el.setAttribute(key, value === true ? "" : value);
+  }
+  for (const child of children.flat()) {
+    if (child === null || child === undefined || child === false) continue;
+    el.append(child.nodeType ? child : document.createTextNode(String(child)));
+  }
+  return el;
+}
+
+async function getJson(path) {
+  const response = await fetch(path, { headers: { Accept: "application/json" } });
+  if (!response.ok) throw new Error(`${path} responded ${response.status}`);
+  return response.json();
+}
+
+const chips = (items) => h("ul", { class: "chips" }, items.map((item) => h("li", {}, item)));
+const bullets = (items) => h("ul", { class: "bullets" }, items.map((item) => h("li", {}, item)));
+
+/* ---------- Renderers ---------- */
+
+function renderHero(profile) {
+  $("#hero-location").textContent = profile.location;
+  $("#hero-name").textContent = profile.name;
+  $("#hero-headline").textContent = profile.headline;
+  $("#hero-summary").textContent = profile.summary;
+  $("#footer-name").textContent = profile.name;
+
+  $("#hero-links").replaceChildren(
+    ...profile.links.map((link) =>
+      h("a", { class: "btn", href: link.url, target: "_blank", rel: "noopener noreferrer" }, link.label)),
+    h("a", { class: "btn btn-ghost", href: `mailto:${profile.email}` }, "Email me"),
+  );
+}
+
+function projectCard(project) {
+  return h("article", { class: "card" },
+    h("p", { class: "eyebrow" }, project.context),
+    h("h3", {}, project.title),
+    h("p", { class: "problem" }, h("strong", {}, "Problem: "), project.problem),
+    bullets(project.highlights),
+    chips(project.technologies),
+  );
+}
+
+function renderExperience(entries) {
+  $("#experience-list").replaceChildren(
+    ...entries.map((entry, index) =>
+      h("li", { class: "timeline-item" },
+        h("p", { class: "eyebrow" }, entry.period),
+        h("h3", {}, entry.role),
+        h("p", { class: "where" }, entry.projectName ? `${entry.company} · ${entry.projectName}` : entry.company),
+        h("details", { open: index === 0 },
+          h("summary", {}, "Highlights & technologies"),
+          bullets(entry.highlights),
+          chips(entry.technologies),
+        ),
+      )),
+  );
+}
+
+function renderSkills(groups) {
+  $("#skills-list").replaceChildren(
+    ...groups.map((group) => h("div", { class: "card" }, h("h3", {}, group.category), chips(group.items))),
+  );
+}
+
+function renderLearning({ education, certifications, courses, languages }) {
+  $("#education-list").replaceChildren(
+    ...education.map((e) => h("li", {}, e.program, h("small", {}, `${e.institution} · ${e.period}`))),
+  );
+  $("#certifications-list").replaceChildren(
+    ...certifications.map((c) => h("li", {}, c.name, h("small", {}, `${c.issuer} · ${c.year}`))),
+  );
+  $("#courses-list").replaceChildren(...courses.map((course) => h("li", {}, course)));
+  $("#languages-line").textContent =
+    "Languages: " + languages.map((l) => `${l.language} (${l.level})`).join(" · ");
+}
+
+/* ---------- Project filter (calls GET /api/projects?technology=…) ---------- */
+
+const FILTERS = ["All", "Azure", "AWS", "MongoDB", "SQL"];
+
+async function loadProjects(technology) {
+  const url = technology ? `/api/projects?technology=${encodeURIComponent(technology)}` : "/api/projects";
+  const projects = await getJson(url);
+
+  $("#api-call").textContent = `GET ${url}`;
+  $("#projects-list").replaceChildren(
+    ...(projects.length
+      ? projects.map(projectCard)
+      : [h("p", { class: "section-note" }, "No projects match this filter.")]),
+  );
+}
+
+function renderFilters() {
+  const container = $("#project-filters");
+  const buttons = FILTERS.map((label, index) =>
+    h("button", { type: "button", "aria-pressed": index === 0 ? "true" : "false" }, label));
+
+  for (const button of buttons) {
+    button.addEventListener("click", async () => {
+      buttons.forEach((b) => b.setAttribute("aria-pressed", String(b === button)));
+      try {
+        await loadProjects(button.textContent === "All" ? null : button.textContent);
+      } catch (error) {
+        showError(error);
+      }
+    });
+  }
+
+  container.replaceChildren(...buttons);
+}
+
+/* ---------- Boot ---------- */
+
+function showError(error) {
+  console.error(error);
+  const box = $("#app-error");
+  box.textContent = "Couldn't load the portfolio data from the API. Please try again in a moment.";
+  box.hidden = false;
+}
+
+async function init() {
+  try {
+    const [profile, experience, skills, education, certifications, courses, languages] = await Promise.all([
+      getJson("/api/profile"),
+      getJson("/api/experience"),
+      getJson("/api/skills"),
+      getJson("/api/education"),
+      getJson("/api/certifications"),
+      getJson("/api/courses"),
+      getJson("/api/languages"),
+    ]);
+
+    renderHero(profile);
+    renderExperience(experience);
+    renderSkills(skills);
+    renderLearning({ education, certifications, courses, languages });
+    renderFilters();
+    await loadProjects(null);
+  } catch (error) {
+    showError(error);
+  }
+}
+
+init();

@@ -1,0 +1,230 @@
+{
+  "profile": {
+    "name": "Kennys Alfaro",
+    "fullName": "Kennys Rafael Alfaro Perez",
+    "headline": "Senior Backend Engineer · C# / .NET 8-9 · Microservices · Azure & AWS",
+    "location": "Colombia",
+    "summary": "I build and maintain backend systems in the .NET ecosystem, mostly where many systems have to talk to each other reliably: third-party provider integrations, asynchronous processing, cloud functions and message queues. I've worked across finance, legal tech, electronic invoicing, hospitality, education and government, in Agile/Scrum teams, with a strong habit of unit testing, code reviews and production troubleshooting.",
+    "email": "kalfaroperez@gmail.com",
+    "links": [
+      { "label": "LinkedIn", "url": "https://www.linkedin.com/in/kennys-alfaro-perez-30a76b73" },
+      { "label": "GitHub", "url": "https://github.com/kalfaroperez" }
+    ]
+  },
+  "experience": [
+    {
+      "id": "cbtw-trip-arc",
+      "company": "CBTW — Collaboration Betters the World",
+      "role": "Backend .NET Senior Developer (Trip Arc)",
+      "projectName": "Hotel Gateway / Hotel Inventory",
+      "period": "April 2024 – 2026",
+      "highlights": [
+        "Develop and maintain backend features based on customer and business requirements.",
+        "Build backend solutions with C# and .NET 8/9 in a microservices-oriented environment.",
+        "Integrate hotel inventory services with Sabre, Amadeus, Travco, HotelBeds and DerbySoft through REST and SOAP APIs.",
+        "Develop Azure Functions for backend processing and serverless workloads.",
+        "Implement and maintain Hangfire background jobs for asynchronous and scheduled processing.",
+        "Work with MongoDB for data persistence and backend operations.",
+        "Investigate and troubleshoot issues across development, testing and production; analyze provider behavior to find root causes.",
+        "Write unit tests, maintain code coverage and take part in code reviews."
+      ],
+      "technologies": ["C#", ".NET 8/9", "Azure Functions", "MongoDB", "Microservices", "REST APIs", "SOAP", "Hangfire", "Angular", "Git", "Azure DevOps", "Postman", "Agile/Scrum"]
+    },
+    {
+      "id": "globant-ogc-legal-sensing",
+      "company": "Globant — Colombia",
+      "role": ".NET Developer (Ssr Advance)",
+      "projectName": "OGC Legal Sensing",
+      "period": "August 2022 – March 2024",
+      "highlights": [
+        "Developed backend features according to customer requirements.",
+        "Implemented AWS Lambda functions for AI-powered text summarization.",
+        "Built an AI summarization solution integrating backend services with cloud technologies.",
+        "Implemented unit testing and maintained code coverage in a microservices architecture and Agile/Scrum environment."
+      ],
+      "technologies": ["C#", ".NET 6", "AWS Lambda", "AWS SQS", "AWS S3", "MySQL", "iText", "Microservices", "Postman", "Git", "Azure DevOps", "AI"]
+    },
+    {
+      "id": "globant-attg",
+      "company": "Globant — Colombia",
+      "role": ".NET Developer (Ssr Advance)",
+      "projectName": "ATTG",
+      "period": "February 2022 – August 2023",
+      "highlights": [
+        "Developed new backend features according to customer requirements.",
+        "Worked with Azure Functions, Azure Service Bus and Azure Storage in microservices-based solutions.",
+        "Conducted technical workshops to share knowledge and improve team productivity.",
+        "Implemented unit testing and maintained code coverage."
+      ],
+      "technologies": ["C#", ".NET Core", "Azure Functions", "Azure Service Bus", "Azure Storage", "SQL", "Microservices", "Postman", "Git", "Azure DevOps", "Agile/Scrum"]
+    },
+    {
+      "id": "globant-tp-commodities",
+      "company": "Globant — Colombia",
+      "role": ".NET Developer (Ssr Advance)",
+      "projectName": "TP Commodities",
+      "period": "December 2021 – February 2022",
+      "highlights": [
+        "Provided technical support following production deployments.",
+        "Investigated and resolved application incidents.",
+        "Supported production stability and issue resolution."
+      ],
+      "technologies": ["C#", ".NET Core", "Azure Functions", "Azure Service Bus", "Azure Storage", "SQL", "Postman", "Git", "Azure DevOps"]
+    },
+    {
+      "id": "slabcode-mifactoring",
+      "company": "SLABCODE SAS — Colombia",
+      "role": "Backend Senior Software Developer",
+      "projectName": "MiFactoring",
+      "period": "October 2021 – November 2021",
+      "highlights": [
+        "Developed new features for MiFactoring, an electronic invoicing platform.",
+        "Developed backend functionality using C# and .NET Core.",
+        "Applied SOLID principles and design patterns."
+      ],
+      "technologies": ["C#", ".NET Core", "Entity Framework", "LINQ", "SQL", "Azure Functions", "REST APIs"]
+    },
+    {
+      "id": "facture-factureone",
+      "company": "FACTURE SAS by Estela — Colombia",
+      "role": "Full Stack Semi Senior Software Developer",
+      "projectName": "FactureOne",
+      "period": "December 2019 – October 2021",
+      "highlights": [
+        "Developed new features and fixed defects for FactureOne, an electronic invoicing platform connected with DIAN services.",
+        "Developed backend services using .NET Framework, .NET Core, C#, Entity Framework and NHibernate.",
+        "Worked with Azure Functions, Azure Service Bus, Azure API Management, SQL Server and REST APIs.",
+        "Contributed to frontend development using Angular and AngularJS."
+      ],
+      "technologies": [".NET Framework", ".NET Core", "C#", "Entity Framework", "NHibernate", "Azure Functions", "Azure Service Bus", "Azure API Management", "SQL Server", "REST APIs", "Angular", "AngularJS"]
+    },
+    {
+      "id": "ibm-technical-support",
+      "company": "IBM — Colombia",
+      "role": "Technical Support Representative",
+      "projectName": "HelpDesk services for Cementos Argos",
+      "period": "October 2015 – December 2019",
+      "highlights": [
+        "Provided technical support for the integration and deployment of HelpDesk services.",
+        "Managed incidents and service requests according to service-level requirements.",
+        "Provided Level 1 technical support to end users using ITIL-based incident and request management."
+      ],
+      "technologies": ["ITIL"]
+    },
+    {
+      "id": "freelance-hostal-monte-carmelo",
+      "company": "Hostal Monte Carmelo SAS — Colombia",
+      "role": "Freelance Full Stack .NET Developer",
+      "projectName": "Hotel reservations web application",
+      "period": "March 2019 – December 2019",
+      "highlights": [
+        "Developed a web application for hotel reservations, maintenance and guest billing."
+      ],
+      "technologies": [".NET Core MVC", "MySQL", "Express", "EJS", "MongoDB"]
+    },
+    {
+      "id": "freelance-ingredsoft-solma",
+      "company": "INGREDSOFT — Colombia",
+      "role": "Freelance Full Stack .NET Developer",
+      "projectName": "SOLMA",
+      "period": "October 2018 – March 2019",
+      "highlights": [
+        "Developed SOLMA, a web application for scheduling maintenance activities in an industrial plant."
+      ],
+      "technologies": [".NET Core", "Entity Framework", "MySQL", "EJS", "Bootstrap", "jQuery"]
+    },
+    {
+      "id": "freelance-comfenalco-chaside",
+      "company": "Fundación Universitaria Tecnológico Comfenalco — Colombia",
+      "role": "Freelance Full Stack .NET Developer",
+      "projectName": "CHASIDE",
+      "period": "October 2012 – November 2012",
+      "highlights": [
+        "Developed CHASIDE, a vocational orientation assessment system."
+      ],
+      "technologies": [".NET Framework", "C#", "ASP.NET", "SQL Server", "Telerik", "AJAX"]
+    }
+  ],
+  "skills": [
+    { "category": "Languages", "items": ["C#", "TypeScript", "SQL"] },
+    { "category": "Backend", "items": [".NET 6/7/8/9", "ASP.NET Core", "Entity Framework Core", "REST", "SOAP", "Microservices"] },
+    { "category": "Cloud", "items": ["Azure Functions", "Azure Service Bus", "Azure Storage", "Azure API Management", "AWS Lambda", "AWS SQS", "AWS S3"] },
+    { "category": "Data", "items": ["SQL Server", "PostgreSQL", "MySQL", "MongoDB", "Redis"] },
+    { "category": "Async & Jobs", "items": ["Hangfire", "Azure Service Bus", "AWS SQS"] },
+    { "category": "DevOps & Tools", "items": ["Git", "Azure DevOps", "CI/CD", "Docker", "Postman"] },
+    { "category": "Quality", "items": ["Unit testing", "Code coverage", "Code reviews"] },
+    { "category": "AI", "items": ["AI integration in backend services", "Claude API"] },
+    { "category": "Frontend (when needed)", "items": ["Angular", "AngularJS"] }
+  ],
+  "projects": [
+    {
+      "id": "hotel-gateway",
+      "title": "Hotel Gateway / Hotel Inventory",
+      "context": "CBTW (Trip Arc), 2024 – 2026",
+      "problem": "Expose a unified hotel inventory by integrating several external suppliers with different protocols and behaviors.",
+      "highlights": [
+        "Integrated Sabre, Amadeus, Travco, HotelBeds and DerbySoft through REST and SOAP APIs.",
+        "Built services in C# / .NET 8-9 within a microservices environment.",
+        "Used Azure Functions for serverless workloads and Hangfire for scheduled and asynchronous jobs.",
+        "Persisted data in MongoDB.",
+        "Investigated provider-specific issues across dev, test and production to find root causes.",
+        "Kept reliability up with unit tests and code coverage."
+      ],
+      "technologies": ["C#", ".NET 8/9", "Azure Functions", "MongoDB", "Hangfire", "REST", "SOAP", "Azure DevOps"]
+    },
+    {
+      "id": "ai-text-summarization",
+      "title": "AI-powered text summarization",
+      "context": "Globant, OGC Legal Sensing, 2022 – 2024",
+      "problem": "Summarize legal text automatically inside a backend workflow.",
+      "highlights": [
+        "Implemented AWS Lambda functions that run the AI summarization.",
+        "Connected backend services with SQS and S3 for asynchronous processing.",
+        "Worked in a microservices architecture with MySQL and iText, backed by unit tests and code coverage."
+      ],
+      "technologies": ["C#", ".NET 6", "AWS Lambda", "AWS SQS", "AWS S3", "MySQL", "iText"]
+    },
+    {
+      "id": "azure-event-driven",
+      "title": "Event-driven services on Azure",
+      "context": "Globant, ATTG, 2022 – 2023",
+      "problem": "Deliver backend features for a microservices solution running on Azure.",
+      "highlights": [
+        "Built features with Azure Functions, Azure Service Bus and Azure Storage.",
+        "Ran internal technical workshops to share knowledge with the team."
+      ],
+      "technologies": ["C#", ".NET Core", "Azure Functions", "Azure Service Bus", "Azure Storage", "SQL"]
+    },
+    {
+      "id": "e-invoicing-colombia",
+      "title": "Electronic invoicing (Colombia)",
+      "context": "Facture SAS & SLABCODE, 2019 – 2021",
+      "problem": "Evolve electronic invoicing platforms connected to Colombian DIAN services.",
+      "highlights": [
+        "Developed features and fixed defects on FactureOne, integrated with DIAN services.",
+        "Contributed to MiFactoring, applying SOLID principles and design patterns.",
+        "Worked with .NET Framework / .NET Core, Entity Framework, NHibernate, Azure Functions, Service Bus, API Management and SQL Server."
+      ],
+      "technologies": [".NET Framework", ".NET Core", "Entity Framework", "NHibernate", "Azure Functions", "Azure Service Bus", "Azure API Management", "SQL Server"]
+    }
+  ],
+  "education": [
+    { "program": "Systems Engineering", "institution": "Fundación Universitaria Tecnológico Comfenalco", "period": "2011 – 2012" },
+    { "program": "Information Systems Technologies", "institution": "Fundación Universitaria Tecnológico Comfenalco", "period": "2007 – 2010" }
+  ],
+  "certifications": [
+    { "name": "ITIL® Foundation V3", "issuer": "PeopleCert / Axelos", "year": 2019 },
+    { "name": "Scrum Foundations Professional Certificate (SFPC)", "issuer": "CertiProf", "year": 2020 }
+  ],
+  "courses": [
+    "Docker — Guía práctica para desarrolladores",
+    "Unit Testing for C# Developers",
+    "Arquitectura de aplicaciones empresariales con .NET 6, 7, 8, 9",
+    "Claude In Action",
+    "Building with the Claude API"
+  ],
+  "languages": [
+    { "language": "Spanish", "level": "Native or bilingual proficiency" },
+    { "language": "English", "level": "B2 — professional working proficiency" }
+  ]
+}

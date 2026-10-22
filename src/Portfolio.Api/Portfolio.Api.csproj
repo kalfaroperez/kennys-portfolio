@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Portfolio.Api</RootNamespace>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The portfolio data ships inside the assembly: no database, no file paths to get wrong. -->
+    <Content Remove="Data\portfolio.json" />
+    <EmbeddedResource Include="Data\portfolio.json" LogicalName="portfolio.json" />
+  </ItemGroup>
+
+</Project>

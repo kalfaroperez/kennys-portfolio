@@ -1,0 +1,10 @@
+services:
+  portfolio:
+    build: .
+    image: kennys-portfolio:local
+    ports:
+      - "8080:8080"
+    environment:
+      # Requests per minute per window for /api/* (see Program.cs)
+      RateLimit__PermitLimit: "120"
+    restart: unless-stopped
