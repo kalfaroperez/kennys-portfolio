@@ -18,7 +18,7 @@ function h(tag, attrs = {}, ...children) {
 }
 
 // Paths are relative (no leading slash) so the site also works under a sub-path,
-// such as https://<user>.github.io/kennys-portfolio/ on GitHub Pages.
+// such as https://kalfaroperez.github.io/kennys-portfolio/ on GitHub Pages.
 
 // When the ASP.NET Core API isn't reachable (GitHub Pages only hosts static files),
 // the same data is read from portfolio.json and filtered here with the API's rules.
@@ -27,7 +27,7 @@ let staticData = null;
 const includesTerm = (values, term) => values.some((v) => v.toLowerCase().includes(term.toLowerCase()));
 
 function fromStatic(path) {
-  const url = new URL(path, "http://static.local/");
+  const url = new URL(path, "https://kennys-portfolio-uktz.onrender.com/");
   const technology = url.searchParams.get("technology");
   const category = url.searchParams.get("category");
 
