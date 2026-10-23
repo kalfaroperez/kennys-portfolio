@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kennys Alfaro · Senior Backend Engineer</title>
   <meta name="description" content="Portfolio of Kennys Alfaro, Senior .NET backend engineer. This page is served by its own ASP.NET Core API.">
+  <link rel="icon" type="image/jpeg" href="avatar.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Kennys Alfaro · Senior Backend Engineer">
+  <meta property="og:description" content="Senior .NET backend engineer: microservices, Azure and AWS, third-party integrations and AI-powered backends.">
+  <meta property="og:image" content="https://kalfaroperez.github.io/kennys-portfolio/profile.jpg">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -23,11 +29,14 @@
 
   <main id="top">
     <section class="hero wrap" aria-labelledby="hero-name">
+      <div class="hero-text">
       <p class="eyebrow" id="hero-location">&nbsp;</p>
       <h1 id="hero-name">Loading…</h1>
       <p class="headline" id="hero-headline"></p>
       <p class="lead" id="hero-summary"></p>
       <div class="actions" id="hero-links"></div>
+      </div>
+      <img class="avatar" src="profile.jpg" width="629" height="762" alt="Portrait of Kennys Alfaro in a dark suit and teal shirt" fetchpriority="high">
     </section>
 
     <p class="wrap error" id="app-error" role="alert" hidden></p>
@@ -62,8 +71,11 @@
 
     <section class="wrap" id="api" aria-labelledby="api-title">
       <h2 id="api-title">This page is powered by its own API</h2>
-      <p class="section-note live-only">Everything above is fetched at load time from the endpoints below.</p>
-      <ul class="endpoints live-only">
+      <p class="section-note">
+        Everything above is fetched at load time from the endpoints below. The API runs on a free hosting plan that
+        sleeps when idle, so the first request after a while can take up to a minute.
+      </p>
+      <ul class="endpoints">
         <li><a href="api/profile"><code>GET /api/profile</code></a></li>
         <li><a href="api/projects?technology=azure"><code>GET /api/projects?technology=azure</code></a></li>
         <li><a href="api/experience?technology=hangfire"><code>GET /api/experience?technology=hangfire</code></a></li>
@@ -74,10 +86,10 @@
         <li><a href="openapi/v1.json"><code>OpenAPI document</code></a></li>
       </ul>
       <p class="section-note static-only">
-        This copy is hosted on GitHub Pages, which only serves static files, so it reads the same data from
-        <code>portfolio.json</code>. The real ASP.NET Core API, tests and Docker setup are in the
-        <a id="repo-link" href="https://github.com" target="_blank" rel="noopener noreferrer">repository</a>:
-        run <code>docker compose up</code> to try it.
+        The API did not answer in time (it may be waking up), so this page is showing a static copy of the same data
+        from <code>portfolio.json</code>. Reload in a minute to see it live. The ASP.NET Core API, tests and Docker
+        setup are in the
+        <a id="repo-link" href="https://github.com" target="_blank" rel="noopener noreferrer">repository</a>.
       </p>
     </section>
   </main>
@@ -89,6 +101,7 @@
   </footer>
 
   <noscript><p class="wrap error">This page loads its content from the API with JavaScript. Please enable JavaScript or call <a href="api/portfolio">/api/portfolio</a> directly.</p></noscript>
+  <script src="config.js"></script>
   <script type="module" src="app.js"></script>
 </body>
 </html>

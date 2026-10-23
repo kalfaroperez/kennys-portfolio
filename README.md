@@ -93,16 +93,16 @@ dotnet test
 2. Replace the `TU-USUARIO` placeholders (LinkedIn/GitHub links) in that file and in this README.
 3. Run the tests: they check that ids are unique and every section is present.
 
-## Live site (GitHub Pages)
+## Live site (GitHub Pages + hosted API)
 
-GitHub Pages only serves static files, so it cannot run the ASP.NET Core API. The frontend therefore has two modes:
+The portfolio is published in two pieces:
 
-- **Live API** (Docker / `dotnet run`): data comes from `/api/*`.
-- **Static** (GitHub Pages): when `api/profile` is not available, the page reads `portfolio.json` and applies the same filtering rules in the browser.
+- **Frontend** on GitHub Pages (static files). The workflow `.github/workflows/pages.yml` publishes `index.html`, `styles.css`, `app.js` and `portfolio.json` on every push to `main`, and writes `config.js` with the URL of the hosted API. One-time setup: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+- **API** in a Docker container on a free plan (Render). Because the page and the API live on different origins, the API allows `https://kalfaroperez.github.io` through CORS (`Cors__AllowedOrigins__0` overrides it).
 
-The workflow `.github/workflows/pages.yml` publishes `index.html`, `styles.css`, `app.js` and `portfolio.json` on every push to `main`. One-time setup: **Settings → Pages → Build and deployment → Source: GitHub Actions**. The site is then available at `https://<your-user>.github.io/kennys-portfolio/`.
+The page calls the API first. Free plans sleep when idle, so if the API does not answer within 8 seconds the page shows a static copy of the same data from `portfolio.json` and pings `/health` to wake the service up. Locally (`dotnet run` / Docker) `config.js` is empty and everything is same-origin.
 
-To host the real API too, publish the Docker image on **Azure App Service / Azure Container Apps**, Render or Fly.io.
+To change the API address, edit `API_BASE_URL` in `pages.yml`.
 
 ## Roadmap
 

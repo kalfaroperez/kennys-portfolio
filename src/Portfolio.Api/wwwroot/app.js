@@ -18,16 +18,24 @@ function h(tag, attrs = {}, ...children) {
 }
 
 // Paths are relative (no leading slash) so the site also works under a sub-path,
-// such as https://kalfaroperez.github.io/kennys-portfolio/ on GitHub Pages.
+// such as https://<user>.github.io/kennys-portfolio/ on GitHub Pages.
 
 // When the ASP.NET Core API isn't reachable (GitHub Pages only hosts static files),
 // the same data is read from portfolio.json and filtered here with the API's rules.
 let staticData = null;
 
+// Where the API lives. "" = same origin; on GitHub Pages config.js points to the hosted API.
+const API_BASE = (() => {
+  const base = window.PORTFOLIO_API_BASE || "";
+  return base && !base.endsWith("/") ? `${base}/` : base;
+})();
+const API_TIMEOUT_MS = 8000; // free hosting sleeps when idle; don't make visitors stare at a blank page
+const apiUrl = (path) => API_BASE + path;
+
 const includesTerm = (values, term) => values.some((v) => v.toLowerCase().includes(term.toLowerCase()));
 
 function fromStatic(path) {
-  const url = new URL(path, "https://kennys-portfolio-uktz.onrender.com/");
+  const url = new URL(path, "http://static.local/");
   const technology = url.searchParams.get("technology");
   const category = url.searchParams.get("category");
 
@@ -50,15 +58,26 @@ function fromStatic(path) {
 }
 
 async function detectMode() {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), API_TIMEOUT_MS);
+
   try {
-    const response = await fetch("api/profile", { headers: { Accept: "application/json" } });
+    const response = await fetch(apiUrl("api/profile"), {
+      headers: { Accept: "application/json" },
+      signal: controller.signal,
+    });
     if (response.ok) {
       await response.json(); // a host that answers 200 with HTML will fail here
       return; // live API
     }
   } catch {
-    // fall through to static mode
+    // unreachable, too slow (cold start) or blocked: fall through to static mode
+  } finally {
+    clearTimeout(timer);
   }
+
+  // Wake the hosted API in the background so the next visit finds it awake.
+  if (API_BASE) fetch(apiUrl("health"), { mode: "no-cors" }).catch(() => {});
 
   const response = await fetch("portfolio.json");
   if (!response.ok) throw new Error(`portfolio.json responded ${response.status}`);
@@ -69,9 +88,19 @@ async function detectMode() {
 async function getJson(path) {
   if (staticData) return fromStatic(path);
 
-  const response = await fetch(path, { headers: { Accept: "application/json" } });
+  const response = await fetch(apiUrl(path), { headers: { Accept: "application/json" } });
   if (!response.ok) throw new Error(`${path} responded ${response.status}`);
   return response.json();
+}
+
+// The endpoint links in the "API" section are written relative; point them at the real API host.
+function wireEndpointLinks() {
+  if (!API_BASE) return;
+  for (const link of document.querySelectorAll(".endpoints a")) {
+    link.href = apiUrl(link.getAttribute("href"));
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+  }
 }
 
 const chips = (items) => h("ul", { class: "chips" }, items.map((item) => h("li", {}, item)));
@@ -151,7 +180,7 @@ async function loadProjects(technology) {
 
   $("#api-call").textContent = staticData
     ? `Static copy · same filter as GET /${url}`
-    : `GET /${url}`;
+    : `GET ${API_BASE || "/"}${url}`;
   $("#projects-list").replaceChildren(
     ...(projects.length
       ? projects.map(projectCard)
@@ -188,6 +217,8 @@ function showError(error) {
 }
 
 async function init() {
+  wireEndpointLinks();
+
   try {
     await detectMode();
 

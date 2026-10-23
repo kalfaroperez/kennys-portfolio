@@ -17,6 +17,8 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      API_BASE_URL: https://kennys-portfolio-uktz.onrender.com/
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -30,7 +32,10 @@ jobs:
           cp src/Portfolio.Api/wwwroot/index.html _site/
           cp src/Portfolio.Api/wwwroot/styles.css _site/
           cp src/Portfolio.Api/wwwroot/app.js _site/
+          cp src/Portfolio.Api/wwwroot/profile.jpg src/Portfolio.Api/wwwroot/avatar.jpg _site/
           cp src/Portfolio.Api/Data/portfolio.json _site/
+          # Point the published page at the hosted API (config.js in the repo stays empty for local runs).
+          echo "window.PORTFOLIO_API_BASE = \"$API_BASE_URL\";" > _site/config.js
           touch _site/.nojekyll
 
       - uses: actions/configure-pages@v5

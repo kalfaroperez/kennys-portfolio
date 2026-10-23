@@ -24,15 +24,28 @@ builder.Services.AddRateLimiter(options =>
     });
 });
 
+// The GitHub Pages site (a different origin) calls this API from the browser, so allow it.
+// Override with Cors__AllowedOrigins__0, Cors__AllowedOrigins__1, ... on the host.
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
+    ?? ["https://kalfaroperez.github.io"];
+
+builder.Services.AddCors(options =>
+    options.AddDefaultPolicy(policy => policy
+        .WithOrigins(allowedOrigins)
+        .WithMethods("GET")
+        .AllowAnyHeader()));
+
 var app = builder.Build();
 
 app.UseExceptionHandler();
 app.UseStatusCodePages();
 
-// The frontend is served from the same origin as the API, so no CORS configuration is needed.
+// The bundled frontend is also served from this API (same origin when run locally or with Docker).
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
+// CORS goes before the rate limiter so that 429 responses also carry the CORS headers.
+app.UseCors();
 app.UseRateLimiter();
 
 app.MapOpenApi();

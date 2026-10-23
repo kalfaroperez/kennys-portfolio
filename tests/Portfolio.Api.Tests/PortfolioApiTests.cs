@@ -40,6 +40,29 @@ public class PortfolioApiTests : IClassFixture<WebApplicationFactory<Program>>
     }
 
     [Fact]
+    public async Task Cors_allows_the_github_pages_origin()
+    {
+        using var request = new HttpRequestMessage(HttpMethod.Get, "/api/profile");
+        request.Headers.Add("Origin", "https://kalfaroperez.github.io");
+
+        var response = await _client.SendAsync(request);
+
+        Assert.True(response.Headers.TryGetValues("Access-Control-Allow-Origin", out var values));
+        Assert.Contains("https://kalfaroperez.github.io", values);
+    }
+
+    [Fact]
+    public async Task Cors_does_not_allow_other_origins()
+    {
+        using var request = new HttpRequestMessage(HttpMethod.Get, "/api/profile");
+        request.Headers.Add("Origin", "https://evil.example");
+
+        var response = await _client.SendAsync(request);
+
+        Assert.False(response.Headers.Contains("Access-Control-Allow-Origin"));
+    }
+
+    [Fact]
     public async Task Profile_has_name_headline_and_links()
     {
         var profile = await _client.GetFromJsonAsync<Profile>("/api/profile");
