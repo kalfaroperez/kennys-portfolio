@@ -17,7 +17,58 @@ function h(tag, attrs = {}, ...children) {
   return el;
 }
 
+// Paths are relative (no leading slash) so the site also works under a sub-path,
+// such as https://<user>.github.io/kennys-portfolio/ on GitHub Pages.
+
+// When the ASP.NET Core API isn't reachable (GitHub Pages only hosts static files),
+// the same data is read from portfolio.json and filtered here with the API's rules.
+let staticData = null;
+
+const includesTerm = (values, term) => values.some((v) => v.toLowerCase().includes(term.toLowerCase()));
+
+function fromStatic(path) {
+  const url = new URL(path, "http://static.local/");
+  const technology = url.searchParams.get("technology");
+  const category = url.searchParams.get("category");
+
+  switch (url.pathname.replace(/^\/+/, "")) {
+    case "api/profile": return staticData.profile;
+    case "api/experience":
+      return technology ? staticData.experience.filter((e) => includesTerm(e.technologies, technology)) : staticData.experience;
+    case "api/projects":
+      return technology ? staticData.projects.filter((p) => includesTerm(p.technologies, technology)) : staticData.projects;
+    case "api/skills":
+      return category
+        ? staticData.skills.filter((g) => g.category.toLowerCase().includes(category.toLowerCase()))
+        : staticData.skills;
+    case "api/education": return staticData.education;
+    case "api/certifications": return staticData.certifications;
+    case "api/courses": return staticData.courses;
+    case "api/languages": return staticData.languages;
+    default: throw new Error(`${path} is not available in static mode`);
+  }
+}
+
+async function detectMode() {
+  try {
+    const response = await fetch("api/profile", { headers: { Accept: "application/json" } });
+    if (response.ok) {
+      await response.json(); // a host that answers 200 with HTML will fail here
+      return; // live API
+    }
+  } catch {
+    // fall through to static mode
+  }
+
+  const response = await fetch("portfolio.json");
+  if (!response.ok) throw new Error(`portfolio.json responded ${response.status}`);
+  staticData = await response.json();
+  document.body.dataset.mode = "static";
+}
+
 async function getJson(path) {
+  if (staticData) return fromStatic(path);
+
   const response = await fetch(path, { headers: { Accept: "application/json" } });
   if (!response.ok) throw new Error(`${path} responded ${response.status}`);
   return response.json();
@@ -34,6 +85,10 @@ function renderHero(profile) {
   $("#hero-headline").textContent = profile.headline;
   $("#hero-summary").textContent = profile.summary;
   $("#footer-name").textContent = profile.name;
+
+  // Static copy only: point visitors to the repository that holds the real API.
+  const github = profile.links.find((link) => link.label === "GitHub");
+  if (github) $("#repo-link").href = `${github.url.replace(/\/$/, "")}/kennys-portfolio`;
 
   $("#hero-links").replaceChildren(
     ...profile.links.map((link) =>
@@ -91,10 +146,12 @@ function renderLearning({ education, certifications, courses, languages }) {
 const FILTERS = ["All", "Azure", "AWS", "MongoDB", "SQL"];
 
 async function loadProjects(technology) {
-  const url = technology ? `/api/projects?technology=${encodeURIComponent(technology)}` : "/api/projects";
+  const url = technology ? `api/projects?technology=${encodeURIComponent(technology)}` : "api/projects";
   const projects = await getJson(url);
 
-  $("#api-call").textContent = `GET ${url}`;
+  $("#api-call").textContent = staticData
+    ? `Static copy · same filter as GET /${url}`
+    : `GET /${url}`;
   $("#projects-list").replaceChildren(
     ...(projects.length
       ? projects.map(projectCard)
@@ -132,14 +189,16 @@ function showError(error) {
 
 async function init() {
   try {
+    await detectMode();
+
     const [profile, experience, skills, education, certifications, courses, languages] = await Promise.all([
-      getJson("/api/profile"),
-      getJson("/api/experience"),
-      getJson("/api/skills"),
-      getJson("/api/education"),
-      getJson("/api/certifications"),
-      getJson("/api/courses"),
-      getJson("/api/languages"),
+      getJson("api/profile"),
+      getJson("api/experience"),
+      getJson("api/skills"),
+      getJson("api/education"),
+      getJson("api/certifications"),
+      getJson("api/courses"),
+      getJson("api/languages"),
     ]);
 
     renderHero(profile);

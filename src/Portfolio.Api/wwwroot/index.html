@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kennys Alfaro · Senior Backend Engineer</title>
   <meta name="description" content="Portfolio of Kennys Alfaro, Senior .NET backend engineer. This page is served by its own ASP.NET Core API.">
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header class="site-header">
@@ -62,17 +62,23 @@
 
     <section class="wrap" id="api" aria-labelledby="api-title">
       <h2 id="api-title">This page is powered by its own API</h2>
-      <p class="section-note">Everything above is fetched at load time from the endpoints below.</p>
-      <ul class="endpoints">
-        <li><a href="/api/profile"><code>GET /api/profile</code></a></li>
-        <li><a href="/api/projects?technology=azure"><code>GET /api/projects?technology=azure</code></a></li>
-        <li><a href="/api/experience?technology=hangfire"><code>GET /api/experience?technology=hangfire</code></a></li>
-        <li><a href="/api/skills?category=cloud"><code>GET /api/skills?category=cloud</code></a></li>
-        <li><a href="/api/portfolio"><code>GET /api/portfolio</code></a></li>
-        <li><a href="/health"><code>GET /health</code></a></li>
-        <li><a href="/docs.html"><code>Interactive docs (Swagger UI)</code></a></li>
-        <li><a href="/openapi/v1.json"><code>OpenAPI document</code></a></li>
+      <p class="section-note live-only">Everything above is fetched at load time from the endpoints below.</p>
+      <ul class="endpoints live-only">
+        <li><a href="api/profile"><code>GET /api/profile</code></a></li>
+        <li><a href="api/projects?technology=azure"><code>GET /api/projects?technology=azure</code></a></li>
+        <li><a href="api/experience?technology=hangfire"><code>GET /api/experience?technology=hangfire</code></a></li>
+        <li><a href="api/skills?category=cloud"><code>GET /api/skills?category=cloud</code></a></li>
+        <li><a href="api/portfolio"><code>GET /api/portfolio</code></a></li>
+        <li><a href="health"><code>GET /health</code></a></li>
+        <li><a href="docs.html"><code>Interactive docs (Swagger UI)</code></a></li>
+        <li><a href="openapi/v1.json"><code>OpenAPI document</code></a></li>
       </ul>
+      <p class="section-note static-only">
+        This copy is hosted on GitHub Pages, which only serves static files, so it reads the same data from
+        <code>portfolio.json</code>. The real ASP.NET Core API, tests and Docker setup are in the
+        <a id="repo-link" href="https://github.com" target="_blank" rel="noopener noreferrer">repository</a>:
+        run <code>docker compose up</code> to try it.
+      </p>
     </section>
   </main>
 
@@ -82,7 +88,7 @@
     </div>
   </footer>
 
-  <noscript><p class="wrap error">This page loads its content from the API with JavaScript. Please enable JavaScript or call <a href="/api/portfolio">/api/portfolio</a> directly.</p></noscript>
-  <script type="module" src="/app.js"></script>
+  <noscript><p class="wrap error">This page loads its content from the API with JavaScript. Please enable JavaScript or call <a href="api/portfolio">/api/portfolio</a> directly.</p></noscript>
+  <script type="module" src="app.js"></script>
 </body>
 </html>

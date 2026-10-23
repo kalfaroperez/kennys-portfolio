@@ -93,9 +93,16 @@ dotnet test
 2. Replace the `TU-USUARIO` placeholders (LinkedIn/GitHub links) in that file and in this README.
 3. Run the tests: they check that ids are unique and every section is present.
 
-## Deploying
+## Live site (GitHub Pages)
 
-GitHub Pages only hosts static files, so it cannot run the API. Publish the Docker image instead, for example on **Azure App Service / Azure Container Apps**, Render or Fly.io, and point your GitHub profile and LinkedIn "Featured" section at the live URL.
+GitHub Pages only serves static files, so it cannot run the ASP.NET Core API. The frontend therefore has two modes:
+
+- **Live API** (Docker / `dotnet run`): data comes from `/api/*`.
+- **Static** (GitHub Pages): when `api/profile` is not available, the page reads `portfolio.json` and applies the same filtering rules in the browser.
+
+The workflow `.github/workflows/pages.yml` publishes `index.html`, `styles.css`, `app.js` and `portfolio.json` on every push to `main`. One-time setup: **Settings → Pages → Build and deployment → Source: GitHub Actions**. The site is then available at `https://<your-user>.github.io/kennys-portfolio/`.
+
+To host the real API too, publish the Docker image on **Azure App Service / Azure Container Apps**, Render or Fly.io.
 
 ## Roadmap
 
